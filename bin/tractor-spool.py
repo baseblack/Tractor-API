@@ -46,8 +46,8 @@ import getpass
 import time
 import optparse
 
-from tractor.glue import nuke, maya, shake
-from tractor.glue import serialize
+from tractor.api import Nuke, Maya, Shake
+from tractor.api import Serializer
 
 __version__ = '1.0.0'
 
@@ -135,11 +135,11 @@ jobargs, cmdargs = buildArgumentDict( options, filepath )
 # Unfortunatly that may not be easily possible without writing confusing code. 
 
 if renderer == 'maya':
-	renderObject = maya.MRfMaya( jobargs, cmdargs )
+	renderObject = MRfMaya( jobargs, cmdargs )
 if renderer == 'nuke':
-	renderObject = nuke.Nuke( jobargs, cmdargs )
+	renderObject = Nuke( jobargs, cmdargs )
 if renderer == 'shake':
-	renderObject = shake.Shake( jobargs, cmdargs )
+	renderObject = Shake( jobargs, cmdargs )
 	
 renderObject.buildTaskTree()
 

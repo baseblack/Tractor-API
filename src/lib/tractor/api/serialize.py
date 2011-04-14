@@ -1,7 +1,6 @@
-from tractor.glue.tasktree import *
+from tasktree import *
 
-__version__ = "2.0.0"
-	
+
 class SerialError( Exception ):
 	pass
 
@@ -15,7 +14,7 @@ class UnserializingError( SerialError ):
 	object. Could be a bunch of reasons really."""
 	pass
 	
-class TractorSerializer(  ):
+class Serializer(  ):
 
 	def __init__(self, obj):
 		if isinstance(obj, TaskTree):

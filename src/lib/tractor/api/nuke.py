@@ -1,5 +1,5 @@
-from tractor.glue.tasktree import Job, Task
-from tractor.glue.render import Render
+from tasktree import Job, Task
+from render import Render
 
 class Nuke( Render ):
 	"""Simple command line render of a nuke script. Breaks the script up in (n) number of chunks

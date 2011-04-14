@@ -1,11 +1,10 @@
 import re
 import sys
 from tractor.ordereddict import OrderedDict
-from tractor.glue.tasktree import Task
-import  tractor.glue.serialize as serialize
+from tasktree import Task
+import  serialize as serialize
 
-__version__ = "2.0.0"		
-			
+		
 class Job( object ):
 	"""Sets up the expected minimum dictionary of arguments expected for an empty job. """
 	
@@ -122,9 +121,9 @@ class Render( Job, Command ):
 	def spool( self, destination, startpaused=False ):
 		
 		#try:
-		tractor = serialize.TractorSerializer( self.JobObj )	
-		tractor.serialize()
-		tractor.spool( destination, startpaused )    #where destination is either 'stdout', 'disk', or 'tractor'
+		jobscript = serialize.Serializer( self.JobObj )	
+		jobscript.serialize()
+		jobscript.spool( destination, startpaused )    #where destination is either 'stdout', 'disk', or 'tractor'
 		#except:
 		#	print "Error during spooling. Phew, could have segfaulted there."
 	

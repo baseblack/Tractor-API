@@ -5,7 +5,7 @@ import os, re
 
 from tractor.ordereddict import OrderedDict
 
-__version__ = "2.0.0"
+__version__ = "3.0.0"
 
 class TaskTree( object ):
 	"""Base class for tractor based job scripts. This class should not be called directly."""
