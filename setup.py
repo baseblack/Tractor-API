@@ -8,5 +8,6 @@ setup(name='tractor-api',
 	author_email='andrew.bunday@baseblack.com',
 	maintainer_email='requests@baseblack.com',
 	#py_modules=['shotgun.api.shotgun_api3'],
-	packages=['tractor']
+	packages=['tractor'],
+	package_dir={'tractor':'src/lib/tractor'},
 	)
