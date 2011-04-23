@@ -36,7 +36,7 @@ Nuke Supported Options:
 
 """
 
-#virtual environment setup
+#virtual environment setup -- If you don't use virtualenv then you'll probably want to comment this bit out.
 activate_this = '/opt/baseblack/python2.6/bin/activate_this.py'
 execfile(activate_this, dict(__file__=activate_this))
 

@@ -4,8 +4,8 @@
 # can be executed of iterated over.
 #
 
-from tractor.glue.tasktree import Job, Task, RemoteCmd
-import tractor.glue.serialize as tractor
+from tractor.api.tasktree import Job, Task, RemoteCmd
+import tractor.api.serialize as tractor
 
 
 myjob = Job('Simple Job Script')
@@ -68,10 +68,10 @@ job = { type':'job', 'label':'Simple Job Script',
 				},
 		}
 
-serializer = tractor.glue.serialize.AlfSerializer()
-serializer = tractor.glue.serialize.PySerializer()
-serializer = tractor.glue.serialize.JSONSerializer()
-serializer = tractor.glue.serialize.Pickle()
+serializer = tractor.api.serialize.AlfSerializer()
+serializer = tractor.api.serialize.PySerializer()
+serializer = tractor.api.serialize.JSONSerializer()
+serializer = tractor.api.serialize.Pickle()
 
 """
 
