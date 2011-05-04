@@ -81,7 +81,7 @@ class Serializer(  ):
 		return output
 
 		
-	def spool( self, destination, startpaused=False ):
+	def spool( self, destination, startpaused=False, user=None ):
 		
 		if not hasattr(self, 'jobscript'):
 			self.serialize()
@@ -98,12 +98,16 @@ class Serializer(  ):
 			p.flush()
 			p.close()
 			
-		if destination is 'tractor':		
+		if destination is 'tractor':	
+			argumentlist = ["/opt/pixar/tractor-blade/default/tractor-spool.py"]
+			if startpaused:
+				argumentlist.append( "--paused" )
+			if user:
+				argumentlist.append( "--user=%s" % user )
+
+			argumentlist.append( self.spoolfile )
 			try:
-				if startpaused:
-					retcode = subprocess.call(["/opt/pixar/tractor-blade/default/tractor-spool.py", "--paused", self.spoolfile])
-				else:
-					retcode = subprocess.call(["/opt/pixar/tractor-blade/default/tractor-spool.py", self.spoolfile])
+				retcode = subprocess.call( argumentlist )
 			except:
 				print "Error Calling tractor-spool.py. Please refer to your Jersey Cow for udder help"
-				print retcode
+				

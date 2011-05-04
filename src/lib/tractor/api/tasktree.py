@@ -148,7 +148,7 @@ class Task( TaskTree ):
 			return None
 		
 		
-class Cmd( TaskTree ):
+class Cmd( object ):
 		
 	def __init__( self, *args, **kwargs ):
 		"""Simple execution command node. The executable can be passed
