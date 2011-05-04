@@ -22,7 +22,12 @@ Virtualenv
 ~~~~~~~~~~~~
 
 The cli has been written making use of virtualenv to protect it from any changes which can and do often occur. If you don't want to use virtualenv then simply comment out the lines
-which activate it and you'll be sorted.<
+which activate it and you'll be sorted.
+
+Unit Tests
+~~~~~~~~~~~~
+
+Provided are a few barebones unit tests for ensuring that the library is still behaving correctly. I've been using python-nose to run the tests.
 
 TaskTree Module
 ------------------------
@@ -89,7 +94,7 @@ Example::
 	renderer.buildTaskTree()
 	renderer.spool( 'tractor', startpaused=options.paused )
 	
-GUIs. They don't exist. Yet.
+GUIs. They don't exist. (Yet).
 ------------------------------------------
 
 On the todo list is the creation of stable ui's for maya/nuke to make submission easier. Presently they are however low on the list since by forcing artists t use the commandline
