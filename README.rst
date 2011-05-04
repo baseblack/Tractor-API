@@ -34,8 +34,8 @@ TaskTree Module
 
 This example should demonstrate the general syntax::
 
-	from tractor.glue.tasktree import Job, Task, RemoteCmd
-	import tractor.glue.serialize as tractor
+	from tractor.api.tasktree import Job, Task, RemoteCmd
+	import tractor.api.serialize as tractor
 
 	myjob = Job('Simple Job Script')
 
