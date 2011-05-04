@@ -44,6 +44,9 @@ class Serializer(  ):
 		else:
 			#label = task.label if task.label is task.name else "%s : %s" % (task.label, task.name)
 			output = "\nTask { %s } -id { %s } " % ( task.label, task.name  )
+			
+		if task.serialsubtasks :
+			output += "-serialsubtasks 1 "
 					
 		if task.tasks:
 			# iterate through the children

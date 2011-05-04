@@ -5,7 +5,7 @@
 #
 
 from tractor.api.tasktree import Job, Task, RemoteCmd
-import tractor.api.serialize as tractor
+import tractor.api.serialize as serialize
 
 
 myjob = Job('Simple Job Script')

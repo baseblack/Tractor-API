@@ -63,7 +63,7 @@ class TaskTree( object ):
 				
 				task.name = '%s_Node%d' % ( name, int(id)+1 ) 
 			else:
-				task.name = '%s_Node1' % task.name
+				task.name = '%s_Node1' % task.name							# rename the current task's name 
 				
 			self.tasks[ task.name ] = task
 			key = task.name
@@ -73,19 +73,21 @@ class TaskTree( object ):
 			# end of the taskname. In this case 'task' is simply a string stating
 			# the name of the task to create.
 			
-			regex = re.compile( '(%s_Node\d+$)' % task ).search					
-			result = [ m.group(1) for l in self.tasks.keys() for m  in [ regex(l) ] if m]
+			# The taskname is the unique key for the node in the task tree
+			
+			regex = re.compile( '(%s_Node\d+$)' % task ).search					# search to see if the task name string provided matches a node
+			result = [ m.group(1) for l in self.tasks.keys() for m  in [ regex(l) ] if m]		# it shouldn't be possible to match more that one, but it can happen so a list is built
 			
 			if result:
-				result.sort()
-				name, id = result[-1].split('_Node')
+				result.sort()						
+				name, id = result[-1].split('_Node')		
 				
-				task= '%s_Node%d' % ( name, int(id)+1 ) 
+				task= '%s_Node%d' % ( name, int(id)+1 ) 	# if the taskname we've been given exists then we create a new node with an incremented indice.
 			else:
-				task = '%s_Node1' % task.name
+				task = '%s_Node1' % task
 			
-			self.tasks[ '%s_Node1' % task ] = Task( task )
-			key = '%s_Node1' % task
+			self.tasks[ task ] = Task( task )
+			key = task
 			
 		self.tasks.globalNodeList.append( key )
 		return self.tasks[ key ] 
@@ -124,7 +126,7 @@ class Task( TaskTree ):
 		self.service  = None
 		self.tasks = OrderedDict()
 		self.commands = []
-		self.serialsubtask = False
+		self.serialsubtasks = False
 
 	def addCmd( self, cmd=None ):
 		if cmd:
