@@ -1,5 +1,6 @@
 from tasktree import *
 
+SPOOL_DIRECTORY="/mnt/muxfs/users/spool/tkr"
 
 class SerialError( Exception ):
 	pass
@@ -21,7 +22,7 @@ class Serializer(  ):
 			self.tree = obj
 			
 		self.now =  int( time.time() )  # <-- should alos get this from the tree
-		self.spooldir = os.path.join( "/mnt/muxfs/users/spool/tkr", self.tree.user )	
+		self.spooldir = os.path.join( SPOOL_DIRECTORY, self.tree.user )	
 		self.spoolfile = "%s/%s.tkr" % (self.spooldir, self.now)
 
 	def printScript( self ):
@@ -40,7 +41,14 @@ class Serializer(  ):
 	def writeTask( self, task ):
 		
 		if isinstance( task, Job ):
+			# job initialiazation section
 			output = "\nJob -title { %s } " % task.title
+			if self.globalvars : 
+				output += "-init { "
+				for var in self.globalvars:
+					output += "\nAssign %s {%s}" % ( var, self.globalvars[var] )
+				output += "\n} "
+			
 		else:
 			#label = task.label if task.label is task.name else "%s : %s" % (task.label, task.name)
 			output = "\nTask { %s } -id { %s } " % ( task.label, task.name  )
@@ -84,7 +92,11 @@ class Serializer(  ):
 		return output
 
 		
-	def spool( self, destination, startpaused=False, user=None ):
+	def spool( self, destination, startpaused=True, user=None ):
+		"""The destination can be any one of 'stdout'/'tractor'/'disk'. To launch the render but not have it
+		start immediately set startpaused to True. To launch the job to run as another user set user to the 
+		username of the person to run as.
+		"""
 		
 		if not hasattr(self, 'jobscript'):
 			self.serialize()

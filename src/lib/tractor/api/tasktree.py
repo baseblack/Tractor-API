@@ -5,8 +5,6 @@ import os, re
 
 from tractor.ordereddict import OrderedDict
 
-__version__ = "3.0.0"
-
 class TaskTree( object ):
 	"""Base class for tractor based job scripts. This class should not be called directly."""
 	# tasks are stored within a dict within each Task. There is therefore no global 
@@ -110,11 +108,15 @@ class Job( TaskTree ):
 		self.tasks = OrderedDict()
 		self.title = ""
 		self.user = getpass.getuser()  
+		self.globalvars = {}
 	
 		if 'jobname' in kwargs:
 			self.title = jobname
 		elif len(args) == 1 :
 			self.title = args[0]
+			
+	def assign( self, varname, value_string ):
+		self.globalvars[varname] = value_string			
 			
 class Task( TaskTree ):
 	# Task names are internally suffixed with "_NodeNNN". As such no
@@ -128,19 +130,24 @@ class Task( TaskTree ):
 		self.commands = []
 		self.serialsubtasks = False
 
-	def addCmd( self, cmd=None ):
-		if cmd:
-			self.commands.append( Cmd( executable=cmd ) )
-		else:
-			self.commands.append( Cmd() )
-		return self.commands[-1]
-
-	def addRemoteCmd( self, **kwargs ):
+	def addCmd( self, *args, **kwargs ):
+		self.commands.append( Cmd() )
+			
 		if 'cmd' in kwargs:
-			self.commands.append( RemoteCmd( executable=kwargs['cmd'] ) )
-		else:
-			self.commands.append( RemoteCmd() )
-		return self.commands[-1]
+			self.lastCmd.executable = cmd 
+		
+		return self.lastCmd
+
+	def addRemoteCmd( self, *args, **kwargs ):
+		self.commands.append( RemoteCmd() )
+		
+		if 'cmd' in kwargs:
+			self.lastCmd.executable = kwargs['cmd'] 
+				
+		if 'service' in kwargs:
+			self.lastCmd.service = kwargs['service'] 
+		
+		return self.lastCmd
 		
 	@property
 	def lastCmd( self ):
@@ -198,4 +205,7 @@ class RemoteCmd( Cmd ):
 		self.remote = True
 		self.service = 'Default'
 
+class Iterate( object ):
+	def __init__(self):
+		pass
 	
