@@ -16,7 +16,11 @@ as stuck.
 Useage of the cli is fairly easy, although I have to admit that if you decide to run it with all the options you'd like to that it can become a little long winded.
 An example for the non-faint of heart::
 
-	tractor-spool.py maya -j '251_gl_060:LS_tran' --imagename='lighting/v005/<RenderLayer>/<RenderPass>/1024x778/251_gl_060_lighting-<RenderLayer>-<RenderPass>-v005' --project=/mnt/muxfs/extratime/251/251_gl_060/maya -r 6-34 -c 1 -t 8 --layers=MasterBeautyLayer,SpecularLayer,BackgroundLayer /mnt/muxfs/extratime/251/251_gl_060/maya/scenes/251_gl_060_lighting/251_gl_060_lighting_v003-06_LS_trans_arms.ma
+	tractor-spool.py maya -j '251_gl_060:LS_tran' \
+--imagename='lighting/v005/<RenderLayer>/<RenderPass>/1024x778/251_gl_060_lighting-<RenderLayer>-<RenderPass>-v005' \
+--project=/mnt/muxfs/extratime/251/251_gl_060/maya \
+-r 6-34 -c 1 -t 8 \
+--layers=MasterBeautyLayer,SpecularLayer,BackgroundLayer \ /mnt/muxfs/extratime/251/251_gl_060/maya/scenes/251_gl_060_lighting/251_gl_060_lighting_v003-06_LS_trans_arms.ma
 
 Virtualenv
 ~~~~~~~~~~~~
@@ -34,8 +38,7 @@ TaskTree Module
 
 This example should demonstrate the general syntax::
 
-	from tractor.api.tasktree import Job, Task, RemoteCmd
-	import tractor.api.serialize as tractor
+	from tractor.api import Job, Task, RemoteCmd, Serializer
 
 	myjob = Job('Simple Job Script')
 
@@ -50,7 +53,7 @@ This example should demonstrate the general syntax::
 	cmd2 = RemoteCmd('echo hello')
 	task2.addRemoteCmd( cmd2 )
 
-	serializer = tractor.TractorSerializer( myjob )
+	serializer = Serializer( myjob )
 	serializer.spool( 'stdout' )
 
 TaskTree Node Types
@@ -65,7 +68,7 @@ Task
 Command/RemoteCommand
    The remote command is a subclass of command, providing additional service information for remote processing.
 
-TractorSerializer 
+Serializer 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Rather than overload the print methods on each of the task tree nodes a serializer instead takes the tasktree when spool'd
