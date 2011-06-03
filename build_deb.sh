@@ -14,12 +14,19 @@
 # Nuke6.2-tractor-api3.0      3.0.0-baseblack-r1234
 # Maya2011-tractor-api3.0   3.0.0-baseblack-r1234
 
+if [ "$1" == "clean" ]; then
+	echo Cleaning...
+	rm *.deb
+	rm $PWD/dist -r
+	exit #quit the script
+fi
+
 PLUGIN_NAME=tractor-api
-PLUGIN_VERSION=3.0.0
+PLUGIN_VERSION=3.0.2
 PLUGIN_SHORT_VERSION=3.0
 MAYA_VERSION=2011
 NUKE_VERSION=6.2
-BUILD_NUMBER=1
+BUILD_NUMBER=2
 
 
 mkdir -p $PWD/dist/release

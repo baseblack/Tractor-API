@@ -38,17 +38,21 @@ class Serializer(  ):
 		if hasattr( self, 'tree' ):
 			self.jobscript = self.writeTask( self.tree)
 			
+	def writeJob( self, task ):		
+		# job initialiazation section
+		output = "\nJob -title { %s } " % task.title
+		if self.globalvars : 
+			output += "-init { "
+			for var in self.globalvars:
+				output += "\nAssign %s {%s}" % ( var, self.globalvars[var] )
+			output += "\n}" 	
+		
+		return output
+			
 	def writeTask( self, task ):
 		
 		if isinstance( task, Job ):
-			# job initialiazation section
-			output = "\nJob -title { %s } " % task.title
-			if self.globalvars : 
-				output += "-init { "
-				for var in self.globalvars:
-					output += "\nAssign %s {%s}" % ( var, self.globalvars[var] )
-				output += "\n} "
-			
+			self.writeJob( task )
 		else:
 			#label = task.label if task.label is task.name else "%s : %s" % (task.label, task.name)
 			output = "\nTask { %s } -id { %s } " % ( task.label, task.name  )

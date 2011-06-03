@@ -104,11 +104,17 @@ class Job( TaskTree ):
 	"""
 	
 	def __init__( self, *args, **kwargs ):		
-		self.serialsubtasks = False
+		self.after = "" 				# {month day hour:minute} or {hour:minute}
+		self.atleast = 0
+		self.atmost = 0
+		self.globalvars = {}			# used in -init{}
+		self.tags = []
+		self.serialsubtasks = False	
+		self.service = None
 		self.tasks = OrderedDict()
 		self.title = ""
 		self.user = getpass.getuser()  
-		self.globalvars = {}
+		
 	
 		if 'jobname' in kwargs:
 			self.title = jobname
@@ -123,12 +129,23 @@ class Task( TaskTree ):
 	# task should be named this way intentionally.
 	
 	def __init__( self, taskname, label="" ):
-		self.name = taskname
-		self.label = label if label else taskname
+		self.name = taskname   
+		self.label = label if label else taskname # -title{}
+		
+		self.cleanup = []
+		self.chaser = ""
+		self.commands = []    # -cmds{}
+		self.preview = ""
 		self.service  = None
-		self.tasks = OrderedDict()
-		self.commands = []
 		self.serialsubtasks = False
+		self.tasks = OrderedDict()   # -subtasks{}
+				
+	@property
+	def lastCmd( self ):
+		try:
+			return self.commands[-1]
+		except:
+			return None
 
 	def addCmd( self, *args, **kwargs ):
 		self.commands.append( Cmd() )
@@ -149,13 +166,11 @@ class Task( TaskTree ):
 		
 		return self.lastCmd
 		
-	@property
-	def lastCmd( self ):
-		try:
-			return self.commands[-1]
-		except:
-			return None
+	def addChaser( self, executable, file ):
+		pass
 		
+	def addPreview( self, executable, file ):
+		pass
 		
 class Cmd( object ):
 		
@@ -164,21 +179,26 @@ class Cmd( object ):
 		a string containing the name of the program and any flags. Or the
 		class can be subclassed for a specific program type."""
 	
-		self.executable = None
-		self.flags = OrderedDict()
-		self.remote = False
+		self.atleast = 0
+		self.executable = ""
 		self.environ = []
+		self.expand = False
+		self.flags = OrderedDict()
+		self.grab = []
+		self.id = ""
+		self.ifcond =  ""
+		self.metrics = ""
+		self.refersto = ""
+		self.remote = False
+		self.retryrc = []
+		self.samehost = False
+		self.shell = ""
 		self.tags = []
-		self.shell = None
 		
-		if 'executable' in kwargs:
-			self.executable = kwargs['executable']
-	
-	def addChaser( self, executable, file ):
-		pass
-		
-	def addPreview( self, executable, file ):
-		pass
+		for attr in self.__dict__:
+			if attr in kwargs:
+				if type( kwargs[attr] ) == type( self.__dict__[attr] ):
+					self.__dict__[attr] = kwargs[attr]
 	
 	def addShell( self, shell ):
 		self.shell = shell
@@ -198,12 +218,11 @@ class Cmd( object ):
 			self.flags[executable] = options
 		else:
 			self.flags['|'] = executable
-			
+
 class RemoteCmd( Cmd ):
 	def __init__( self, *args, **kwargs ):
 		Cmd.__init__(self, args, kwargs)
 		self.remote = True
-		self.service = 'Default'
 
 class Iterate( object ):
 	def __init__(self):
