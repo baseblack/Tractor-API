@@ -5,8 +5,6 @@ from tractor.plugin.maya import MRfMaya
 from tractor.plugin.nuke  import Nuke
 from tractor.plugin.shake import Shake
 
-__version__ = "3.1.0"
-
 __all__ = 	[ 
 		'MRfMaya', 
 		'Nuke',

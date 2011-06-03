@@ -1,7 +1,6 @@
 import time		
-import subprocess
 import getpass
-import os, re
+import re
 
 from tractor.ordereddict import OrderedDict
 
@@ -114,7 +113,6 @@ class Job( TaskTree ):
 		self.tasks = OrderedDict()
 		self.title = ""
 		self.user = getpass.getuser()  
-		
 	
 		if 'jobname' in kwargs:
 			self.title = jobname
@@ -123,7 +121,8 @@ class Job( TaskTree ):
 			
 	def assign( self, varname, value_string ):
 		self.globalvars[varname] = value_string			
-			
+	
+	
 class Task( TaskTree ):
 	# Task names are internally suffixed with "_NodeNNN". As such no
 	# task should be named this way intentionally.
@@ -171,7 +170,8 @@ class Task( TaskTree ):
 		
 	def addPreview( self, executable, file ):
 		pass
-		
+	
+	
 class Cmd( object ):
 		
 	def __init__( self, *args, **kwargs ):

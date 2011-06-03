@@ -1,11 +1,11 @@
 import re
 import sys
-from tractor.ordereddict import OrderedDict
-from tasktree import Task
-import  serialize as serialize
 
+from tractor.ordereddict import OrderedDict
+from tractor.api.tasktree import Task
+from tractor.api.serialize import Serializer
 		
-class Job( object ):
+class RenderJob( object ):
 	"""Sets up the expected minimum dictionary of arguments expected for an empty job. """
 	
 	def __init__( self, jobargs ):
@@ -37,7 +37,7 @@ class Job( object ):
 		if 'preview'     in jobargs: self.job['preview']  = jobargs[ 'preview' ]	
 		if 'progress'     in jobargs: self.job['progress']  = jobargs[ 'progress' ]		
 			
-class Command( object ):
+class RenderCommand( object ):
 	"""Sets up the expected minimum dictionary of arguments expected for an empty command. """
 	
 	def __init__( self, cmdargs ):
@@ -45,12 +45,16 @@ class Command( object ):
 		self.command = dict()
 		self.command['file'] = cmdargs[ 'file' ] if 'file' in cmdargs else None
 
-class Render( Job, Command ):
+#
+# This is the main class in this module. This class should only be used to construct plugins
+# for the api for applications such as nuke, maya, prman etc. Added functionallity which can be reused.
+#
+class Render( RenderJob, RenderCommand ):
 	
 	def __init__( self, jobargs, cmdargs ):
 		
-		Job.__init__( self, jobargs )
-		Command.__init__( self, cmdargs )
+		RenderJob.__init__( self, jobargs )
+		RenderCommand.__init__( self, cmdargs )
 			
 		self.splitFrameRange()
 			
@@ -121,21 +125,9 @@ class Render( Job, Command ):
 	def spool( self, destination, startpaused=False ):
 		
 		#try:
-		jobscript = serialize.Serializer( self.JobObj )	
+		jobscript = Serializer( self.JobObj )	
 		jobscript.serialize()
 		jobscript.spool( destination, startpaused )    #where destination is either 'stdout', 'disk', or 'tractor'
 		#except:
 		#	print "Error during spooling. Phew, could have segfaulted there."
 	
-	
-def quicktimeTask( self ):
-	"""To generate a quicktime of the completed frames at the end of the render process"""
-	
-	task = Task('Quicktime__')
-	task.service = 'QTProRes422'
-	self.serialsubtask = True
-	task.addCmd( 'echo "making a quicktime..."')
-	
-	return task		
-
-

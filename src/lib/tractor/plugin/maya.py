@@ -1,5 +1,11 @@
-from tasktree import  Job, Task
-from render import Render
+from tractor.api.tasktree import  Job, Task
+from tractor.api.render import Render
+
+class ArnoldfMaya( Render ):
+	pass
+	
+class RManfMaya( Render ):
+	pass
 
 class MRfMaya( Render ):
 	"""Simple command line render of a maya scene. Breaks the render up in (n) number of chunks

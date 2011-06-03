@@ -1,5 +1,6 @@
-from tractor.api import Nuke, MRfMaya, Shake
-
+from tractor.api import Nuke
+from tractor.api import MRfMaya
+from tractor.api import Shake
 
 def NukeSpool( arg ):
 	cmd_args = { "threads":4, "fullsize":False, "quiet":True, "file":"/tmp/mynukefile.nk"}

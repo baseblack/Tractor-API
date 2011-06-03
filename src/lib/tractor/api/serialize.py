@@ -1,6 +1,15 @@
-from tasktree import *
+import time		
+import subprocess
+import os
 
-SPOOL_DIRECTORY="/mnt/muxfs/users/spool/tkr"
+from tractor.api.tasktree import TaskTree
+from tractor.api.tasktree import Job
+from tractor.api.tasktree import Task
+from tractor.api.tasktree import RemoteCmd
+from tractor.api.tasktree import Cmd
+
+# define for the location of the .tkr spool files. Stored in ../__init__.py
+from tractor import SPOOL_DIRECTORY
 
 class SerialError( Exception ):
 	pass
@@ -38,13 +47,13 @@ class Serializer(  ):
 		if hasattr( self, 'tree' ):
 			self.jobscript = self.writeTask( self.tree)
 			
-	def writeJob( self, task ):		
+	def writeJob( self, job ):		
 		# job initialiazation section
-		output = "\nJob -title { %s } " % task.title
-		if self.globalvars : 
+		output = "\nJob -title { %s } " % job.title
+		if job.globalvars : 
 			output += "-init { "
-			for var in self.globalvars:
-				output += "\nAssign %s {%s}" % ( var, self.globalvars[var] )
+			for var in job.globalvars:
+				output += "\nAssign %s {%s}" % ( var, job.globalvars[var] )
 			output += "\n}" 	
 		
 		return output
@@ -52,9 +61,8 @@ class Serializer(  ):
 	def writeTask( self, task ):
 		
 		if isinstance( task, Job ):
-			self.writeJob( task )
+			output = self.writeJob( task )
 		else:
-			#label = task.label if task.label is task.name else "%s : %s" % (task.label, task.name)
 			output = "\nTask { %s } -id { %s } " % ( task.label, task.name  )
 			
 		if task.serialsubtasks :
