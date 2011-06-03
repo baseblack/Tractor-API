@@ -17,10 +17,11 @@ Useage of the cli is fairly easy, although I have to admit that if you decide to
 An example for the non-faint of heart::
 
 	tractor-spool.py maya -j '251_gl_060:LS_tran' \
---imagename='lighting/v005/<RenderLayer>/<RenderPass>/1024x778/251_gl_060_lighting-<RenderLayer>-<RenderPass>-v005' \
---project=/mnt/muxfs/extratime/251/251_gl_060/maya \
--r 6-34 -c 1 -t 8 \
---layers=MasterBeautyLayer,SpecularLayer,BackgroundLayer \ /mnt/muxfs/extratime/251/251_gl_060/maya/scenes/251_gl_060_lighting/251_gl_060_lighting_v003-06_LS_trans_arms.ma
+	--imagename='lighting/v005/<RenderLayer>/<RenderPass>/1024x778/251_gl_060_lighting-<RenderLayer>-<RenderPass>-v005' \
+	--project=/mnt/muxfs/extratime/251/251_gl_060/maya \
+	-r 6-34 -c 1 -t 8 \
+	--layers=MasterBeautyLayer,SpecularLayer,BackgroundLayer \ 
+	/mnt/muxfs/extratime/251/251_gl_060/maya/scenes/251_gl_060_lighting/251_gl_060_lighting_v003-06_LS_trans_arms.ma
 
 Virtualenv
 ~~~~~~~~~~~~
