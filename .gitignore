@@ -11,4 +11,8 @@ sdist/
 *egg/
 *.deb
 build_deb.sh
-
+*.config
+*.creator
+*.creator.user
+*.files
+*.includes
