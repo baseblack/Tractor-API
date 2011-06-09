@@ -16,3 +16,4 @@ build_deb.sh
 *.creator.user
 *.files
 *.includes
+*.swp
