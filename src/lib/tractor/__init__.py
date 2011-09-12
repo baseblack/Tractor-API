@@ -1,3 +1,3 @@
-__version__="4.0.0"
+__version__="VERSION"
 
-SPOOL_DIRECTORY="/mnt/muxfs/users/spool/tkr"
+SPOOL_DIRECTORY="/mnt/shows/users/spool/tkr"

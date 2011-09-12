@@ -32,9 +32,8 @@ fi
 #
 
 if [ ! -n "$PLUGIN_NAME" ];    then   PLUGIN_NAME="tractor-api"; fi
-if [ ! -n "$PLUGIN_VERSION" ]; then   
-                                      PLUGIN_VERSION=4.1.0; fi
-                                      SHORT_VERSION=`echo $VERSION | sed 's/\.[0-9]$//'`
+if [ ! -n "$PLUGIN_VERSION" ]; then   PLUGIN_VERSION=4.2.0; fi
+if [ ! -n "$PLUGIN_SHORT_VERSION" ]; then   PLUGIN_SHORT_VERSION=`echo $PLUGIN_VERSION | sed 's/\.[0-9]$//'`; fi
 if [ ! -n "$BUILD_NUMBER" ];   then   BUILD_NUMBER=1; fi
 if [ ! -n "$MAYA_VERSION" ];   then   MAYA_VERSION=2011; fi
 if [ ! -n "$NUKE_VERSION" ];   then   NUKE_VERSION=6.3; fi
@@ -100,6 +99,9 @@ fpm -n nuke${NUKE_VERSION}-${PLUGIN_NAME}${PLUGIN_SHORT_VERSION} \
 
 mkdir -p $PWD/dist/release/opt/baseblack/python2.6/lib/python2.6/site-packages
 cp -r src/lib/tractor $PWD/dist/release/opt/baseblack/python2.6/lib/python2.6/site-packages/
+
+sed -i "s/VERSION/${PLUGIN_VERSION}/g" $PWD/dist/release/opt/baseblack/python2.6/lib/python2.6/site-packages/tractor/__init__.py
+sed -i "s/muxfs/shows/g" $PWD/dist/release/opt/baseblack/python2.6/lib/python2.6/site-packages/tractor/__init__.py
 
 REPLACES="${PLUGIN_NAME}${PLUGIN_SHORT_VERSION} (<< ${RELEASE_VERSION})"
 
