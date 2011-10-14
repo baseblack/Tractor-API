@@ -119,8 +119,9 @@ class SerializerBase( object ):
 			argumentlist.append( self.spoolfile )
 			try:
 				retcode = subprocess.call( argumentlist )
-			except:
+			except Exception, e:
 				print "Error Calling tractor-spool.py. Please refer to your Jersey Cow for udder help"
+				print e
 				
 		if destination is 'stdout' or not destination :
 			print self.jobscript
